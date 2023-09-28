@@ -5,8 +5,26 @@ import { useEffect, useState } from 'react'
 import { TipTapMenubarComponent } from './tip-tap-menubar.component'
 import { Button } from './ui/button'
 import { useDebounce } from '@/lib/useDebounce'
-export default function TipTapEditorComponent() {
-  const [editorContent, setEditorContent] = useState('')
+import { useMutation } from '@tanstack/react-query'
+import { NoteType } from '@/lib/db/schema'
+import { Loader2 } from 'lucide-react'
+
+type Props = {
+  note: NoteType
+}
+export default function TipTapEditorComponent({ note }: Props) {
+  const [editorContent, setEditorContent] = useState(note.editorState || '')
+  const saveNote = useMutation({
+    mutationFn: async () => {
+      const response = await fetch('/api/save-note', {
+        method: 'POST',
+        body: JSON.stringify({
+          editorContent: editorContent,
+          noteId: note.id
+        })
+      })
+    }
+  })
 
   const editor = useEditor({
     autofocus: true,
@@ -19,14 +37,23 @@ export default function TipTapEditorComponent() {
 
   const debounceEditorContent = useDebounce(editorContent, 2000)
   useEffect(() => {
-    console.log('debounceEditorContent', debounceEditorContent)
+    if(debounceEditorContent === '') return
+    saveNote.mutate(undefined, {
+      onSuccess: () => {
+        console.log('Note saved')
+      },
+      onError: () => {
+        console.log('Note save failed')
+      }
+    })
   }, [debounceEditorContent])
 
   return (
     <section className='flex flex-col'>
       <article className='flex gap-2 items-center'>
         {editor && <TipTapMenubarComponent editor={editor} />}
-        <Button size="sm">
+        <Button size="sm" disabled={saveNote.isLoading}>
+          {saveNote.isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Save
         </Button>
       </article>

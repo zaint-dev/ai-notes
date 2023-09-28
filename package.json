@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "studio": "npx drizzle-kit studio"
   },
   "dependencies": {
     "@clerk/backend": "^0.29.3",
