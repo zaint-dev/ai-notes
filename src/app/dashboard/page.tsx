@@ -1,4 +1,5 @@
 import CreateNoteDialog from "@/components/create-note-dialog";
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -21,6 +22,7 @@ export default async function Dashboard() {
         </Link>
         <p className="text-3xl font-bold">My Notes</p>
         <UserButton />
+        <ModeToggle />
       </section>
       <Separator className="mt-8 mb-8" />
 

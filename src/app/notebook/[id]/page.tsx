@@ -30,10 +30,10 @@ export default async function NotebookDetailPage({ params: { id } }: Props) {
   const note = notes[0]
   return (
     <section className="flex flex-col container w-full min-h-screen mx-auto p-8">
-      <article className="flex justify-between items-center shadow-lg rounded-lg">
+      <article className="flex justify-between items-center shadow-lg rounded-lg p-2 bg-stone-100">
         <article className="flex gap-x-4 items-center">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon">
+            <Button variant="secondary" size="icon">
               <ChevronLeft strokeWidth={4} />
             </Button>
           </Link>
@@ -41,11 +41,16 @@ export default async function NotebookDetailPage({ params: { id } }: Props) {
             <span className="font-bold">{user.username}</span> / <p className="text-muted-foreground">{note.name}</p>
           </p>
         </article>
-        <Button variant="outline">
+        <Button variant="destructive">
           <Trash2 />
         </Button>
       </article>
-      <img src={note.imageUrl} alt="" className="w-48 h-48" />
+      
+      {/* Editor */}
+      <article className="flex flex-col gap-y-4 mt-8 shadow-lg rounded-lg">
+        
+      </article>
+
     </section>
   )
 }
