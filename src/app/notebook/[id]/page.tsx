@@ -1,3 +1,5 @@
+import { ModeToggle } from "@/components/mode-toggle"
+import TipTapEditorComponent from "@/components/tip-tap-editor.component"
 import { Button } from "@/components/ui/button"
 import { clerk } from "@/lib/clerk-server"
 import { db } from "@/lib/db"
@@ -30,7 +32,7 @@ export default async function NotebookDetailPage({ params: { id } }: Props) {
   const note = notes[0]
   return (
     <section className="flex flex-col container w-full min-h-screen mx-auto p-8">
-      <article className="flex justify-between items-center shadow-lg rounded-lg p-2 bg-stone-100">
+      <article className="flex justify-between items-center shadow-lg rounded-lg p-2 dark:bg-slate-900 bg-stone-100">
         <article className="flex gap-x-4 items-center">
           <Link href="/dashboard">
             <Button variant="secondary" size="icon">
@@ -41,14 +43,17 @@ export default async function NotebookDetailPage({ params: { id } }: Props) {
             <span className="font-bold">{user.username}</span> / <p className="text-muted-foreground">{note.name}</p>
           </p>
         </article>
-        <Button variant="destructive">
-          <Trash2 />
-        </Button>
+        <article className="flex items-center gap-x-2">
+          <Button variant="ghost">
+            <Trash2 />
+          </Button>
+          <ModeToggle />
+        </article>
       </article>
-      
+
       {/* Editor */}
-      <article className="flex flex-col gap-y-4 mt-8 shadow-lg rounded-lg">
-        
+      <article className="flex flex-col gap-y-4 mt-8 shadow-lg rounded-lg p-4 dark:bg-slate-900">
+        <TipTapEditorComponent />
       </article>
 
     </section>
