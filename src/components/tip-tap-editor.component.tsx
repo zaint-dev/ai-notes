@@ -1,9 +1,10 @@
 'use client'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TipTapMenubarComponent } from './tip-tap-menubar.component'
 import { Button } from './ui/button'
+import { useDebounce } from '@/lib/useDebounce'
 export default function TipTapEditorComponent() {
   const [editorContent, setEditorContent] = useState('')
 
@@ -15,6 +16,11 @@ export default function TipTapEditorComponent() {
       setEditorContent(editor.getHTML())
     }
   })
+
+  const debounceEditorContent = useDebounce(editorContent, 2000)
+  useEffect(() => {
+    console.log('debounceEditorContent', debounceEditorContent)
+  }, [debounceEditorContent])
 
   return (
     <section className='flex flex-col'>
