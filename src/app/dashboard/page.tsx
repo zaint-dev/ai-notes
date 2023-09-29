@@ -1,16 +1,23 @@
 import CreateNoteDialog from "@/components/create-note-dialog";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
 import { $notes } from "@/lib/db/schema";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
+import { eq } from "drizzle-orm";
 import { ChevronLeft } from 'lucide-react';
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function Dashboard() {
+  const { userId } = await auth()
   const notebooks = await db.select().from($notes)
+    .where(
+      eq($notes.userId, userId!)
+    )
+  console.log(notebooks)
 
   return (
     <main className="min-h-screen container mx-auto">
@@ -31,7 +38,8 @@ export default async function Dashboard() {
         {
           notebooks.map((notebook) => (
             <Card key={notebook.id}>
-              <img src={notebook.imageUrl} alt="" className="object-fill w-full aspect-auto"/>
+              <img src={notebook.imageUrl} alt="" className="object-fill w-full aspect-auto" />
+              
               <CardContent>
                 <p>{notebook.name}</p>
               </CardContent>
