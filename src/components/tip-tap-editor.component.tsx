@@ -10,6 +10,7 @@ import { NoteType } from '@/lib/db/schema'
 import { Loader2 } from 'lucide-react'
 import Text from '@tiptap/extension-text'
 import { useCompletion } from 'ai/react'
+import { Separator } from './ui/separator'
 
 type Props = {
   note: NoteType
@@ -85,9 +86,15 @@ export default function TipTapEditorComponent({ note }: Props) {
           Save
         </Button>
       </article>
-      <article className='prose  dark:prose-invert w-full'>
+      <article className='prose prose-md dark:prose-invert w-full mt-4'>
         <EditorContent editor={editor} />
       </article>
+      <Separator />
+      <span className='text-sm mt-4'>
+        Tip: Press {"  "}
+        <kbd className='px-2 py-1.5 text-xs font-bold dark:text-muted-foreground bg-black text-white dark:bg-gray-100 dark:border dark:border-gray-200 rounded-lg'>Shift + A</kbd>
+        {"  "} to use AI completion
+      </span>
     </section>
   )
 
